@@ -1,8 +1,11 @@
 {
-  "name": "material-ui",
-  "author": "Call-em-all Engineering Team",
+  "name": "epui",
+  "author": {
+    "name": "Zhi Wei",
+    "email": "zhi.wei@e-ports.com"
+  },
   "version": "0.8.0",
-  "description": "Material Design UI components built with React",
+  "description": "Material Design UI components built with React, forked from material-ui of Call-em-all Engineering Team",
   "main": "./lib",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,13 +24,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/callemall/material-ui.git"
+    "url": "git@repo.lan.e-ports.com:7999/sh/epui.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callemall/material-ui/issues"
+    "url": ""
   },
-  "homepage": "http://material-ui.com/",
+  "homepage": "",
   "dependencies": {
     "classnames": "^1.2.0",
     "react-draggable2": "^0.5.1"
@@ -37,9 +40,9 @@
     "react-tap-event-plugin": ">=0.1.3"
   },
   "devDependencies": {
-    "react-tools": "^0.13",
     "browserify": "^7.0.3",
     "reactify": "^1.1.0",
-    "react-router": "^0.13"
+    "react-router": "^0.13",
+    "react-tools": "^0.13"
   }
 }
