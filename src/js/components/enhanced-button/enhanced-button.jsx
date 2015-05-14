@@ -5,6 +5,8 @@ var WindowListenable = require("../../mixins/window-listenable");
 var FocusRipple = require("../ripples").FocusRipple;
 var TouchRipple = require("../ripples").TouchRipple;
 
+require("./enhanced-button.less");
+
 var EnhancedButton = React.createClass({
 
   mixins: [StylePropable, WindowListenable],

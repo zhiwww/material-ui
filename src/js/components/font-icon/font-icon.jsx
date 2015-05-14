@@ -2,6 +2,8 @@ var React = require("react");
 var StylePropable = require("../../mixins/style-propable");
 var Spacing = require("../../styles/spacing");
 
+require("./font-icon.less");
+
 var FontIcon = React.createClass({
 
   mixins: [StylePropable],

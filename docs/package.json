@@ -1,42 +1,47 @@
 {
-  "name": "material-ui-docs",
+  "name": "epui-docs",
   "version": "0.8.0",
-  "description": "Documentation site for material-ui",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/callemall/material-ui.git"
-  },
+  "description": "Documentation site for epui",
   "scripts": {
     "start": "gulp"
   },
-  "browser": {
-    "mui": "../src/index.js"
+  "repository": {
+    "type": "git",
+    "url": "git@repo.lan.e-ports.com:7999/sh/epui.git"
   },
-  "browserify": {
-    "transform": [
-      [
-        "reactify",
-        {
-          "es6": true
-        }
-      ]
-    ]
-  },
-  "devDependencies": {
-    "browser-sync": "^1.8.1",
-    "gulp": "^3.8.10",
-    "gulp-autoprefixer": "^2.0.0",
-    "gulp-less": "^3.0.0",
-    "gulp-notify": "^2.1.0",
-    "gulp-sourcemaps": "^1.2.8",
-    "gulp-util": "^3.0.1",
-    "pretty-hrtime": "^0.2.2",
-    "require-dir": "^0.1.0",
-    "underscore": "^1.7.0",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.2.1"
+  "peerDependencies": {
+    "react": ">=0.13"
   },
   "dependencies": {
-    "highlight.js": "^8.4.0"
+    "epui": "file:../"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^1.2.0",
+    "babel-core": "^5.1.13",
+    "babel-loader": "^5.0.0",
+    "browser-sync": "^2.6.4",
+    "css-loader": "^0.11.0",
+    "del": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-changed": "^1.2.1",
+    "gulp-less": "^3.0.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-notify": "^2.1.0",
+    "gulp-size": "^1.2.1",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "highlight.js": "^8.5.0",
+    "jshint": "^2.7.0",
+    "jshint-loader": "^0.8.3",
+    "less": "^2.5.0",
+    "less-loader": "^2.2.0",
+    "minimist": "^1.1.1",
+    "react-router-proxy-loader": "^0.3.0",
+    "react-tools": "^0.13.2",
+    "run-sequence": "^1.1.0",
+    "style-loader": "^0.11.0",
+    "underscore": "^1.7.0",
+    "webpack": "^1.8.11"
   }
 }

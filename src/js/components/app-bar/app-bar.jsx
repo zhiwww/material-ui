@@ -5,6 +5,8 @@ var IconButton = require("../icon-button");
 var NavigationMenu = require("../svg-icon").NavigationMenu;
 var Paper = require("../paper");
 
+require("./app-bar.less");
+
 var AppBar = React.createClass({
 
   mixins: [StylePropable],

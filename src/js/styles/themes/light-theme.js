@@ -4,7 +4,7 @@ var ColorManipulator = require('../../utils/color-manipulator');
 
 /**
  *  Light Theme is the default theme used in material-ui. It is guaranteed to
- *  have all theme variables needed for every component. Variables not defined 
+ *  have all theme variables needed for every component. Variables not defined
  *  in a custom theme will default to these values.
  */
 
@@ -145,17 +145,17 @@ var LightTheme = {
         titleFontSize: 20,
         iconColor: 'rgba(0, 0, 0, .40)',
         separatorColor: 'rgba(0, 0, 0, .175)',
-        menuHoverColor: 'rgba(0, 0, 0, .10)',
-        menuHoverColor: Colors.white
+        menuHoverColor: 'rgba(0, 0, 0, .10)'
+        //menuHoverColor: Colors.white
       }
     };
-    
+
     // Properties based on previous properties
-    obj.flatButton.disabledTextColor = ColorManipulator.fade(obj.flatButton.textColor, 0.3),
-    obj.floatingActionButton.disabledColor = ColorManipulator.darken(Colors.white, 0.1),
-    obj.floatingActionButton.disabledTextColor = ColorManipulator.fade(palette.textColor, 0.3)
-    obj.raisedButton.disabledColor = ColorManipulator.darken(obj.raisedButton.color, 0.1),
-    obj.raisedButton.disabledTextColor = ColorManipulator.fade(obj.raisedButton.textColor, 0.3)
+    obj.flatButton.disabledTextColor = ColorManipulator.fade(obj.flatButton.textColor, 0.3);
+    obj.floatingActionButton.disabledColor = ColorManipulator.darken(Colors.white, 0.1);
+    obj.floatingActionButton.disabledTextColor = ColorManipulator.fade(palette.textColor, 0.3);
+    obj.raisedButton.disabledColor = ColorManipulator.darken(obj.raisedButton.color, 0.1);
+    obj.raisedButton.disabledTextColor = ColorManipulator.fade(obj.raisedButton.textColor, 0.3);
     obj.slider.handleSizeActive = obj.slider.handleSize * 2;
     obj.toggle.trackRequiredColor = ColorManipulator.fade(obj.toggle.thumbRequiredColor, 0.5);
 

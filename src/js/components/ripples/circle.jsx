@@ -3,6 +3,8 @@ var StylePropable = require("../../mixins/style-propable");
 var Transitions = require("../../styles/transitions");
 var Colors = require("../../styles/colors");
 
+require("./circle.less");
+
 var RippleCircle = React.createClass({
 
   mixins: [StylePropable],

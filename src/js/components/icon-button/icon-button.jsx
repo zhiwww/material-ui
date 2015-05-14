@@ -5,6 +5,8 @@ var EnhancedButton = require("../enhanced-button");
 var FontIcon = require("../font-icon");
 var Tooltip = require("../tooltip");
 
+require("./icon-button.less");
+
 var IconButton = React.createClass({
 
   mixins: [StylePropable],

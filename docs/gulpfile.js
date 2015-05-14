@@ -1,16 +1,83 @@
-/*
-  gulpfile.js
-  ===========
-  Rather than manage one giant configuration file responsible
-  for creating multiple tasks, each task has been broken out into
-  its own file in gulp/tasks. Any files in that directory get
-  automatically required below.
-  To add a new task, simply add a new task file that directory.
-  gulp/tasks/default.js specifies the default set of tasks to run
-  when you run `gulp`.
-*/
+"use strict";
 
-var requireDir = require('require-dir');
+var gulp        = require("gulp");
+var del         = require("del");
+var webpack     = require("webpack");
+var browserSync = require("browser-sync").create();
+var runSequence = require("run-sequence");
+var $           = require("gulp-load-plugins")();
 
-// Require all tasks in gulp/tasks, including subfolders
-requireDir('./gulp/tasks', { recurse: true });
+var dest = "./build";
+
+gulp.task("clean", del.bind(null, [dest], {dot: true}));
+
+gulp.task("static", function() {
+  gulp
+  .src(["./src/static/**/*", "./src/index.html"])
+  .pipe($.changed(dest))
+  .pipe(gulp.dest(dest));
+});
+
+gulp.task("bundle", function(cb) {
+  var started = false;
+  var config = require("./webpack.config");
+  var bundler = webpack(config);
+
+  var bundle = function(err, stats) {
+    if(err) {
+      $.util.PluginError("webpack", err);
+    }
+
+    $.util.log("[webpack]", stats.toString({colors: true}));
+
+    if (!started) {
+      started = true;
+      return cb();
+    }
+  };
+
+  bundler.run(bundle);
+});
+
+gulp.task("build", function(cb) {
+  runSequence(
+    ["static", "bundle"],
+    "size",
+    function() {
+      cb();
+    }
+  );
+});
+
+gulp.task("refresh", function() {
+  browserSync.reload();
+});
+
+gulp.task("size", function(cb) {
+  var p = gulp
+  .src([dest + "/**/*", "!" + dest + "**/*.map"])
+  .pipe($.size({gzip: false, title: "origin size"}))
+  .pipe($.size({gzip: true, title: "final size"}))
+  .pipe(gulp.dest("./temp"));
+
+  p.on("end", function() {
+    del("./temp", {dot: true});
+    cb();
+  });
+
+});
+
+gulp.task("serve", ["build"], function() {
+    browserSync.init({
+        server: {
+            baseDir: "./build/"
+        }
+    });
+
+    gulp.watch(["../lib/**/*.js", "../lib/**/*.css", "./src/**/*"], function() {
+      runSequence("build", "refresh", function() {
+      });
+    });
+});
+
+gulp.task("default", ["serve"]);

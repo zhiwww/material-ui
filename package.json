@@ -9,11 +9,9 @@
   "main": "./lib",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rm -rf lib",
-    "build:js": "./node_modules/.bin/jsx --harmony ./src ./lib",
-    "build:jsx": "./node_modules/.bin/jsx --harmony -x jsx ./src ./lib",
-    "build": "npm run build:js && npm run build:jsx",
-    "prepublish": "npm run build"
+    "prebuild": "gulp clean",
+    "build": "gulp build",
+    "prepublish": "gulp build"
   },
   "keywords": [
     "react",
@@ -40,9 +38,26 @@
     "react-tap-event-plugin": ">=0.1.3"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^1.2.0",
+    "babel-core": "^5.2.16",
+    "babel-loader": "^5.0.0",
     "browserify": "^7.0.3",
-    "reactify": "^1.1.0",
+    "css-loader": "^0.11.0",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-changed": "^1.2.1",
+    "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-react": "^3.0.1",
+    "gulp-size": "^1.2.1",
+    "gulp-util": "^3.0.4",
+    "jshint-loader": "^0.8.3",
+    "less-loader": "^2.2.0",
     "react-router": "^0.13",
-    "react-tools": "^0.13"
+    "react-tools": "^0.13",
+    "reactify": "^1.1.0",
+    "run-sequence": "^1.1.0",
+    "style-loader": "^0.11.0",
+    "webpack": "^1.8.11"
   }
 }

@@ -3,6 +3,8 @@ var StylePropable = require("../../mixins/style-propable");
 var Transitions = require("../../styles/transitions");
 var Colors = require("../../styles/colors");
 
+require("./tooltip.less");
+
 var Tooltip = React.createClass({
 
   mixins: [StylePropable],

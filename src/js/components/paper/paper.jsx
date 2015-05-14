@@ -2,6 +2,8 @@ var React = require("react");
 var StylePropable = require("../../mixins/style-propable");
 var Transitions = require("../../styles/transitions");
 
+require("./paper.less");
+
 var Paper = React.createClass({
 
   mixins: [StylePropable],
