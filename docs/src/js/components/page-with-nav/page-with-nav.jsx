@@ -1,8 +1,9 @@
 var React = require('react'),
   Router = require('react-router'),
   RouteHandler = Router.RouteHandler,
-  mui = require('mui'),
-  Menu = mui.Menu;
+  Menu = require('epui/lib/js/components/menu').Menu;
+
+require("./page-with-nav.less");
 
 class PageWithNav extends React.Component {
 
@@ -19,11 +20,11 @@ class PageWithNav extends React.Component {
           <RouteHandler />
         </div>
         <div className="page-with-nav-secondary-nav">
-          <Menu 
-            ref="menuItems" 
-            zDepth={0} 
-            menuItems={this.props.menuItems} 
-            selectedIndex={this._getSelectedIndex()} 
+          <Menu
+            ref="menuItems"
+            zDepth={0}
+            menuItems={this.props.menuItems}
+            selectedIndex={this._getSelectedIndex()}
             onItemClick={this._onMenuItemClick} />
         </div>
       </div>
@@ -43,7 +44,7 @@ class PageWithNav extends React.Component {
   _onMenuItemClick(e, index, item) {
     this.context.router.transitionTo(item.route);
   }
-  
+
 }
 
 PageWithNav.propTypes = {

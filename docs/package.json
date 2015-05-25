@@ -22,6 +22,7 @@
     "browser-sync": "^2.6.4",
     "css-loader": "^0.11.0",
     "del": "^1.1.1",
+    "file-loader": "^0.8.1",
     "gulp": "^3.8.10",
     "gulp-changed": "^1.2.1",
     "gulp-less": "^3.0.0",
@@ -36,12 +37,15 @@
     "jshint-loader": "^0.8.3",
     "less": "^2.5.0",
     "less-loader": "^2.2.0",
+    "lodash": "^3.9.1",
     "minimist": "^1.1.1",
     "react-router-proxy-loader": "^0.3.0",
     "react-tools": "^0.13.2",
     "run-sequence": "^1.1.0",
     "style-loader": "^0.11.0",
     "underscore": "^1.7.0",
+    "velocity": "^0.7.2",
+    "velocity-animate": "^1.2.2",
     "webpack": "^1.8.11"
   }
 }

@@ -22,7 +22,7 @@ Router
 // initializer/constructor method.
 .create({
   routes: AppRoutes,
-  location: Router.HistoryLocation,
+  location: Router.HashLocation, //Router.HistoryLocation,
   scrollBehavior: Router.ScrollToTopBehavior
 })
 // This is our callback function, whenever the url changes it will be called again.

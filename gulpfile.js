@@ -13,7 +13,8 @@ var paths = {
   css: [src + "**/*.css"],
   less: [src + "**/*.less"],
   jsx: [src + "**/*.jsx"],
-  js: [src + "**/*.js"]
+  js: [src + "**/*.js"],
+  statics: [src + "**/*.png", src + "**/*.jpg"]
 };
 
 gulp.task("clean", del.bind(null, [lib], {dot: true}));
@@ -54,13 +55,20 @@ gulp.task("js", function() {
   .pipe(gulp.dest(lib));
 });
 
+gulp.task("statics", function() {
+  gulp
+  .src(paths.statics)
+  .pipe(gulp.dest(lib));
+});
+
 gulp.task("watch", function() {
   gulp.watch(paths.js, ["js"]);
   gulp.watch(paths.jsx, ["jsx"]);
   gulp.watch(paths.css, ["css"]);
   gulp.watch(paths.less, ["less"]);
+  gulp.watch(paths.statics, ["statics"]);
 });
 
-gulp.task("build", ["css", "less", "js", "jsx"], function(callback) {
+gulp.task("build", ["css", "less", "js", "jsx", "statics"], function(callback) {
 
 });

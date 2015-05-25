@@ -1,0 +1,23 @@
+@import (reference) '../../../less/mixins/centered.less';
+
+.mui-photo-viewer {
+  display: block;
+  overflow: hidden;
+
+  .mui-photo-viewer-container {
+    position: relative;
+    //backface-visibility: hidden;
+    //transform-style: preserve-3d;
+  }
+
+  .mui-photo-viewer-page {
+    display: inline-block;
+    overflow: hidden;
+
+    .centered-container;
+
+    img {
+      .centered-content;
+    }
+  }
+}

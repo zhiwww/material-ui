@@ -147,6 +147,11 @@ var LightTheme = {
         separatorColor: 'rgba(0, 0, 0, .175)',
         menuHoverColor: 'rgba(0, 0, 0, .10)'
         //menuHoverColor: Colors.white
+      },
+      avatar: {
+        borderColor: palette.borderColor,
+        borderWidth: 2,
+        borderStyle: 'solid'
       }
     };
 

@@ -11,7 +11,6 @@ var AppCanvas = React.createClass({
   },
 
   render: function() {
-
     var styles = {
       height: "100%",
       backgroundColor: this.context.muiTheme.palette.canvasColor,

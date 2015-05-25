@@ -1,5 +1,7 @@
 var React = require('react');
 
+require('./component-info.less');
+
 class ComponentInfo extends React.Component {
 
   render() {

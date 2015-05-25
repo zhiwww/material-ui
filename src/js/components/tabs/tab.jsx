@@ -30,7 +30,6 @@ var Tab = React.createClass({
   render: function(){
     var styles = this.mergeAndPrefix({
       'display': 'table-cell',
-      'height': '100%',
       'cursor': 'pointer',
       'textAlign': 'center',
       'verticalAlign': 'middle',

@@ -1,8 +1,9 @@
 var React = require('react');
-var mui = require('mui');
-var Classable = mui.Mixins.Classable;
-var CodeExample = require('./code-example/code-example.jsx');
-var ComponentInfo = require('./component-info.jsx');
+var Classable = require('epui/lib/js/mixins/classable');
+var CodeExample = require('../code-example/code-example');
+var ComponentInfo = require('./component-info');
+
+require('./component-doc.less');
 
 var ComponentDoc = React.createClass({
 
@@ -47,7 +48,7 @@ var ComponentDoc = React.createClass({
 
     return (
       <div className={classes}>
-        
+
         {header}
 
         <CodeExample code={this.props.code}>

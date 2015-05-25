@@ -1,4 +1,2 @@
-module.exports = {
-	Tab: require('tab'),
-	Tabs: require('tabs')
-};
+module.exports = require('./tabs');
+module.exports.Tab = require('./tab');

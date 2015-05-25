@@ -58,8 +58,9 @@ var LeftNav = React.createClass({
   },
 
   close: function() {
-    this.setState({ open: false });
-    if (this.props.onNavClose) this.props.onNavClose();
+    var self = this;
+    self.setState({ open: false });
+    if (self.props.onNavClose) self.props.onNavClose();
     return this;
   },
 
@@ -87,7 +88,7 @@ var LeftNav = React.createClass({
         zIndex: 10,
         left: 0,
         top: 0,
-        transition: Transitions.easeOut(),
+        transition: Transitions.easeOut('450ms'),
         backgroundColor: this.getTheme().color,
         overflow: "hidden"
       },
