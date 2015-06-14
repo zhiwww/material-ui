@@ -150,7 +150,7 @@ var PhotoViewer = React.createClass({
       offsetX: offsetX,
       left: left
     });
-    console.log('set offset to', offsetX);
+
     //E. set state
     this.setState(state);
 
@@ -185,7 +185,6 @@ var PhotoViewer = React.createClass({
       transform: 'translateX(' + this.state.offsetX + 'px)'
     });
 
-    console.log(styles);
     return (
       <div className='mui-photo-viewer'
         ref='viewer'

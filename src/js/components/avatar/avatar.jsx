@@ -1,5 +1,5 @@
 var React = require('react');
-var StylePropable = require("../../mixins/style-propable");
+var StylePropable = require('../../mixins/style-propable');
 var EnhancedButton = require('../enhanced-button');
 
 require('./avatar.less');
@@ -59,6 +59,8 @@ var Avatar = React.createClass({
       ...others
     } = this.props;
 
+    var src = this.props.src || require('./avatar.png');
+
     return (
       <EnhancedButton
         className='mui-avatar'
@@ -68,7 +70,7 @@ var Avatar = React.createClass({
         onTouchTap={onTouchTap}
         disabled={disabled}
         >
-        <img src={this.props.src} style={this.getStyles().img} />
+        <img src={src} style={this.getStyles().img} />
       </EnhancedButton>
     );
   }

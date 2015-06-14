@@ -2,7 +2,7 @@
   "name": "epui",
   "author": {
     "name": "Zhi Wei",
-    "email": "zhi.wei@e-ports.com"
+    "email": "zhiwww@gmail.com"
   },
   "version": "0.8.0",
   "description": "Material Design UI components built with React, forked from material-ui of Call-em-all Engineering Team",
@@ -20,10 +20,6 @@
     "material-ui",
     "material ui"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@repo.lan.e-ports.com:7999/sh/epui.git"
-  },
   "license": "MIT",
   "bugs": {
     "url": ""
