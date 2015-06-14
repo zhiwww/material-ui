@@ -14,7 +14,8 @@ var Dialog = React.createClass({
   },
 
   propTypes: {
-    title: React.PropTypes.node
+    title: React.PropTypes.node,
+    contentInnerStyle: React.PropTypes.object,
   },
 
   getStyles: function() {
@@ -23,7 +24,10 @@ var Dialog = React.createClass({
       title: {
         margin: 0,
         padding: gutter + gutter + '0 ' + gutter,
-        color: this.context.muiTheme.palette.textColor
+        color: this.context.muiTheme.palette.textColor,
+        fontSize: '24px',
+        lineHeight: '32px',
+        fontWeight: '400',
       },
       content: {
         padding: Spacing.desktopGutter
@@ -35,6 +39,7 @@ var Dialog = React.createClass({
   render: function() {
     var {
       className,
+      contentInnerStyle,
       ...other
     } = this.props;
 
@@ -58,7 +63,7 @@ var Dialog = React.createClass({
 
         {title}
 
-        <div ref="dialogContent" style={styles.content}>
+        <div ref="dialogContent" style={this.mergeAndPrefix(styles.content, contentInnerStyle)}>
           {this.props.children}
         </div>
 

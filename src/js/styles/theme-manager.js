@@ -1,6 +1,4 @@
-var Color = require('./colors');
 var Spacing = require('./spacing');
-var ColorManipulator = require('../utils/color-manipulator');
 var Extend = require('../utils/extend');
 
 var Types = {
@@ -14,7 +12,7 @@ var ThemeManager = function() {
     template: Types.LIGHT,
 
     spacing: Spacing,
-    fontFamily: 'Roboto, sans-serif',
+    contentFontFamily: 'Roboto, sans-serif',
 
     palette: Types.LIGHT.getPalette(),
     component: Types.LIGHT.getComponentThemes(Types.LIGHT.getPalette()),

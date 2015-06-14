@@ -1,11 +1,6 @@
 var React = require('react');
-var TabTemplate = require('./tabTemplate');
-var StylePropable = require('../../mixins/style-propable.js');
-var Colors = require('../../styles/colors.js');
-
-require("./tabs.less");
-
-
+var StylePropable = require('../mixins/style-propable.js');
+var Colors = require('../styles/colors.js')
 var Tab = React.createClass({
 
   mixins: [StylePropable],
@@ -16,15 +11,12 @@ var Tab = React.createClass({
 
   propTypes: {
     handleTouchTap: React.PropTypes.func,
-    selected: React.PropTypes.bool
+    selected: React.PropTypes.bool,
+    width: React.PropTypes.string
   },
 
   handleTouchTap: function(){
     this.props.handleTouchTap(this.props.tabIndex, this);
-  },
-
-  getTheme: function() {
-    return this.context.muiTheme.palette;
   },
 
   render: function(){
@@ -36,10 +28,11 @@ var Tab = React.createClass({
       'height': '48px',
       'color': Colors.white,
       'opacity': '.6',
-      'fontSize': '14sp',
+      'fontSize': '14px',
       'fontWeight': '500',
       'whiteSpace': 'initial',
-      'font': this.getTheme().fontFamily,
+      'fontFamily': this.context.muiTheme.contentFontFamily,
+      'boxSizing': 'border-box',
       'width': this.props.width
     }, this.props.style);
 

@@ -12,6 +12,8 @@ require("./dialog-window.less");
 
 var DialogWindow = React.createClass({
 
+  closeable: false,
+
   mixins: [WindowListenable, StylePropable],
 
   contextTypes: {
@@ -32,7 +34,8 @@ var DialogWindow = React.createClass({
   },
 
   windowListeners: {
-    'keyup': '_handleWindowKeyUp'
+    'keyup': '_handleWindowKeyUp',
+    'resize': '_positionDialog'
   },
 
   getDefaultProps: function() {
@@ -52,9 +55,7 @@ var DialogWindow = React.createClass({
   componentDidMount: function() {
     this._positionDialog();
     if (this.props.openImmediately) {
-      this.refs.dialogOverlay.preventScrolling();
-      this._onShow();
-      this._focusOnAction();
+      this.show();
     }
   },
 
@@ -134,15 +135,20 @@ var DialogWindow = React.createClass({
   },
 
   dismiss: function() {
-    CssEvent.onTransitionEnd(React.findDOMNode(this), function() {
-      this.refs.dialogOverlay.allowScrolling();
-    }.bind(this));
+    if (this.closeable) {
+      CssEvent.onTransitionEnd(React.findDOMNode(this), function() {
+        this.refs.dialogOverlay.allowScrolling();
+      }.bind(this));
 
-    this.setState({ open: false });
-    this._onDismiss();
+      this.setState({ open: false });
+      this._onDismiss();
+    }
   },
 
   show: function() {
+    // prevent rapid show/hide
+    setTimeout(function(){this.closeable = true;}.bind(this), 250);
+
     this.refs.dialogOverlay.preventScrolling();
     this._focusOnAction();
     this.setState({ open: true });
@@ -150,12 +156,19 @@ var DialogWindow = React.createClass({
   },
 
   _getAction: function(actionJSON, key) {
-    var onClickHandler = actionJSON.onClick ? actionJSON.onClick : this.dismiss;
     var styles = {marginRight: 8};
     var props = {
       key: key,
       secondary: true,
-      onClick: onClickHandler,
+      onClick: actionJSON.onClick,
+      onTouchTap: () => {
+        if (actionJSON.onTouchTap) {
+          actionJSON.onTouchTap.call(undefined);
+        }
+        if (!(actionJSON.onClick || actionJSON.onTouchTap)) {
+          this.dismiss();
+        }
+      },
       label: actionJSON.text,
       style: styles
     };
@@ -191,7 +204,7 @@ var DialogWindow = React.createClass({
           currentAction = this._getAction(currentAction, i);
         }
         actionObjects.push(currentAction);
-      };
+      }
 
       actionContainer = (
         <div style={actionStyle}>
@@ -204,7 +217,6 @@ var DialogWindow = React.createClass({
   },
 
   _positionDialog: function() {
-
     var container = React.findDOMNode(this);
     var dialogWindow = React.findDOMNode(this.refs.dialogWindow);
     var containerHeight = container.offsetHeight;
@@ -213,7 +225,7 @@ var DialogWindow = React.createClass({
     //Reset the height in case the window was resized.
     dialogWindow.style.height = '';
 
-    var paddingTop = ((containerHeight - dialogWindowHeight) / 2) - 64;
+    var paddingTop = Math.max(((containerHeight - dialogWindowHeight) / 2) - 64, 0);
 
     //Vertically center the dialog window, but make sure it doesn't
     //transition to that position.
@@ -238,7 +250,7 @@ var DialogWindow = React.createClass({
   },
 
   _handleOverlayTouchTap: function() {
-    if (!this.props.modal) {
+    if (!this.props.modal && this.closeable) {
       this.dismiss();
       if (this.props.onClickAway) this.props.onClickAway();
     }

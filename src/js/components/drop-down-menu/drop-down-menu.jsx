@@ -3,7 +3,6 @@ var StylePropable = require('../../mixins/style-propable');
 var Transitions = require('../../styles/transitions');
 var ClickAwayable = require('../../mixins/click-awayable');
 var DropDownArrow = require('../svg-icons/drop-down-arrow');
-var KeyLine = require('../../utils/key-line');
 var Paper = require('../paper');
 var Menu = require('../menu/menu');
 var ClearFix = require('../clearfix');
@@ -108,7 +107,7 @@ var DropDownMenu = React.createClass({
       },
       underline: {
         borderTop: 'solid 1px ' + accentColor,
-        margin: '0 ' + this.getSpacing().desktopGutter + 'px'
+        margin: '-1px ' + this.getSpacing().desktopGutter + 'px'
       },
       menuItem: {
         paddingRight: this.getSpacing().iconSize +
@@ -131,6 +130,11 @@ var DropDownMenu = React.createClass({
 
   render: function() {
     var styles = this.getStyles();
+
+    if (process.env.NODE_ENV !== 'production') {
+      console.assert(!!this.props.menuItems[this.state.selectedIndex], 'SelectedIndex of ' + this.state.selectedIndex + ' does not exist in menuItems.');
+    }
+
     return (
       <div
         ref="root"
@@ -142,7 +146,7 @@ var DropDownMenu = React.createClass({
           this.state.open && styles.rootWhenOpen,
           this.props.style)} >
 
-          <ClearFix style={this.mergeAndPrefix(styles.control)} onClick={this._onControlClick}>
+          <ClearFix style={this.mergeAndPrefix(styles.control)} onTouchTap={this._onControlClick}>
             <Paper style={this.mergeAndPrefix(styles.controlBg)} zDepth={0} />
             <div style={this.mergeAndPrefix(styles.label, this.state.open && styles.labelWhenOpen)}>
               {this.props.menuItems[this.state.selectedIndex].text}
@@ -159,16 +163,17 @@ var DropDownMenu = React.createClass({
             menuItemStyle={this.mergeAndPrefix(styles.menuItem, this.props.menuItemStyle)}
             hideable={true}
             visible={this.state.open}
-            onItemClick={this._onMenuItemClick} />
+            onItemTap={this._onMenuItemClick} />
       </div>
     );
   },
 
   _setWidth: function() {
-    var el = React.findDOMNode(this),
-      menuItemsDom = this.refs.menuItems.getDOMNode();
-
-    el.style.width = menuItemsDom.offsetWidth + 'px';
+    var el = React.findDOMNode(this);
+    var menuItemsDom = React.findDOMNode(this.refs.menuItems);
+    if (!this.props.style || !this.props.style.hasOwnProperty('width')) {
+      el.style.width = menuItemsDom.offsetWidth + 'px';
+    }
   },
 
   _setSelectedIndex: function(props) {
@@ -181,7 +186,7 @@ var DropDownMenu = React.createClass({
     this.setState({selectedIndex: (selectedIndex > -1) ? selectedIndex : 0});
   },
 
-  _onControlClick: function(e) {
+  _onControlClick: function() {
     this.setState({ open: !this.state.open });
   },
 
@@ -193,11 +198,11 @@ var DropDownMenu = React.createClass({
     });
   },
 
-  _handleMouseOver: function(e) {
+  _handleMouseOver: function() {
     this.setState({isHovered: true});
   },
 
-  _handleMouseOut: function(e) {
+  _handleMouseOut: function() {
     this.setState({isHovered: false});
   }
 

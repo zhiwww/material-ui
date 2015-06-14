@@ -1,11 +1,8 @@
 var React = require('react');
-var StylePropable = require('../../mixins/style-propable');
+var StylePropable = require('./mixins/style-propable');
 var Draggable = require('react-draggable2');
-var Transitions = require('../../styles/transitions.js');
-var FocusRipple = require('../ripples/focus-ripple');
-var Paper = require('../paper');
-
-require("./slider.less");
+var Transitions = require('./styles/transitions.js');
+var FocusRipple = require('./ripples/focus-ripple');
 
 var Slider = React.createClass({
 
@@ -25,6 +22,8 @@ var Slider = React.createClass({
     description: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     onDragStart: React.PropTypes.func,
     onDragStop: React.PropTypes.func
   },
@@ -193,13 +192,13 @@ var Slider = React.createClass({
       styles.handle,
       styles.handleWhenPercentZero,
       this.state.active && styles.handleWhenActive,
-      this.props.focused && {outline: 'none'},
+      this.state.focused && {outline: 'none'},
       this.state.hovered && styles.handleWhenPercentZeroAndHovered,
       this.props.disabled && styles.handleWhenDisabledAndZero
     ) : this.mergeAndPrefix(
       styles.handle,
       this.state.active && styles.handleWhenActive,
-      this.props.focused && {outline: 'none'},
+      this.state.focused && {outline: 'none'},
       this.props.disabled && styles.handleWhenDisabled
     );
 
@@ -234,7 +233,6 @@ var Slider = React.createClass({
         <span className="mui-input-description">{this.props.description}</span>
         <span className="mui-input-error">{this.props.error}</span>
         <div style={sliderStyles}
-          onClick={this._onClick}
           onFocus={this._onFocus}
           onBlur={this._onBlur}
           onMouseOver={this._onMouseOver}
@@ -295,42 +293,29 @@ var Slider = React.createClass({
     this.setValue(0);
   },
 
-  _handleWindowKeydown: function(e) {
-    if (e.keyCode == KeyCode.TAB) this._tabPressed = true;
-  },
-
-  _onClick: function (e) {
-    this._tabPressed = false;
-    // let draggable handle the slider
-    if (this.state.dragging || this.props.disabled) return;
-    var value = this.state.value;
-    var node = React.findDOMNode(this.refs.track);
-    var boundingClientRect = node.getBoundingClientRect();
-    var offset = e.clientX - boundingClientRect.left;
-    this._updateWithChangeEvent(e, offset / node.clientWidth);
-  },
-
   _onFocus: function (e) {
     this.setState({focused: true});
+    if (this.props.onFocus) this.props.onFocus(e);
   },
 
   _onBlur: function (e) {
     this.setState({focused: false, active: false});
+    if (this.props.onBlur) this.props.onBlur(e);
   },
 
-  _onMouseOver: function (e) {
+  _onMouseOver: function () {
     this.setState({hovered: true});
   },
 
-  _onMouseOut: function (e) {
+  _onMouseOut: function () {
     this.setState({hovered: false});
   },
 
-  _onMouseUp: function (e) {
+  _onMouseUp: function () {
     if (!this.props.disabled) this.setState({active: false});
   },
 
-  _onMouseDown: function (e) {
+  _onMouseDown: function () {
     if (!this.props.disabled) this.setState({active: true});
   },
 

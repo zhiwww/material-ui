@@ -1,7 +1,5 @@
 var React = require('react');
-var Paper = require('../paper');
-var EnhancedSwitch = require('../enhanced-switch');
-var RadioButton = require('../radio-button');
+var RadioButton = require('./radio-button');
 
 var RadioButtonGroup = React.createClass({
 
@@ -28,7 +26,7 @@ var RadioButtonGroup = React.createClass({
   componentWillMount: function() {
     var cnt = 0;
 
-    this.props.children.forEach(function(option) {
+    React.Children.forEach(this.props.children, function(option) {
       if (this._hasCheckAttribute(option)) cnt++;
     }, this);
 
@@ -43,7 +41,7 @@ var RadioButtonGroup = React.createClass({
 
 	render: function() {
 
-    var options = this.props.children.map(function(option) {
+    var options = React.Children.map(this.props.children, function(option) {
 
       var {
         name,
@@ -67,14 +65,16 @@ var RadioButtonGroup = React.createClass({
 		}, this);
 
 		return (
-			<div>
+			<div 
+        style={this.props.style} 
+        className={this.props.className || ''}>
 				{options}
 			</div>
 		);
 	},
 
   _updateRadioButtons: function(newSelection) {
-    if (this.state.numberCheckedRadioButtons == 0) {
+    if (this.state.numberCheckedRadioButtons === 0) {
       this.setState({selected: newSelection});
     } else if (process.env.NODE_ENV !== 'production') {
       var message = "Cannot select a different radio button while another radio button " +
@@ -87,7 +87,7 @@ var RadioButtonGroup = React.createClass({
     this._updateRadioButtons(newSelection);
 
     // Successful update
-    if (this.state.numberCheckedRadioButtons == 0) {
+    if (this.state.numberCheckedRadioButtons === 0) {
       if (this.props.onChange) this.props.onChange(e, newSelection);
     }
 	},

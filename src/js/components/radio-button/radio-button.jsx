@@ -92,13 +92,18 @@ var RadioButton = React.createClass({
 
     var rippleColor = this.props.checked ? this.getTheme().checkedColor : this.getTheme().borderColor;
 
+    var iconStyle = this.mergeAndPrefix(
+      styles.icon,
+      this.props.iconStyle
+    );
+
     var enhancedSwitchProps = {
       ref: "enhancedSwitch",
       inputType: "radio",
-      switched: this.props.checked,
+      switched: this.props.checked || false,
       switchElement: radioButtonElement,
       rippleColor: rippleColor,
-      iconStyle: styles.icon,
+      iconStyle: iconStyle,
       onSwitch: this._handleCheck,
       onParentShouldUpdate: this._handleStateChange,
       labelPosition: (this.props.labelPosition) ? this.props.labelPosition : "right"
@@ -116,7 +121,7 @@ var RadioButton = React.createClass({
     if (this.props.onCheck) this.props.onCheck(e, this.props.value);
   },
 
-  _handleStateChange: function(newSwitched) {
+  _handleStateChange: function() {
   },
 
   isChecked: function() {

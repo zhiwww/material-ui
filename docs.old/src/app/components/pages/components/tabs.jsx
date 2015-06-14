@@ -5,7 +5,8 @@ var Router = require('react-router');
 var ComponentDoc = require('../../component-doc.jsx');
 var RouteHandler = Router.RouteHandler;
 
-var {Tabs, Tab} = mui;
+var {Tabs, Tab, Slider} = mui;
+var Typography = mui.Styles.Typography;
 
 class TabsPage extends React.Component {
 
@@ -14,11 +15,25 @@ class TabsPage extends React.Component {
     this._onActive = this._onActive.bind(this);
   }
 
+  getStyles() {
+    return {
+      headline: {
+        fontSize: '24px',
+        lineHeight: '32px',
+        paddingTop: '16px',
+        marginBottom: '12px',
+        letterSpacing: '0',
+        fontWeight: Typography.fontWeightNormal,
+        color: Typography.textDarkBlack
+      }
+    }
+  }
+
   render(){
     var code =  '<Tabs> \n' +
                 '  <Tab label="Item One" > \n' +
-                '    <div className="tab-template-container"> \n' +
-                '      <h2 className="mui-font-style-headline">Tab One Template Example</h2> \n' +
+                '    <div> \n' +
+                '      <h2 style={this.getStyles().headline}>Tab One Template Example</h2> \n' +
                 '      <p> \n' +
                 '        This is an example of a tab template! \n' +
                 '      </p> \n' +
@@ -28,8 +43,8 @@ class TabsPage extends React.Component {
                 '    </div> \n' +
                 '  </Tab> \n' +
                 '  <Tab label="Item Two" > \n' +
-                '    <div className="tab-template-container"> \n' +
-                '      <h2 className="mui-font-style-headline">Tab Two Template Example</h2> \n' +
+                '    <div> \n' +
+                '      <h2 style={this.getStyles().headline}>Tab Two Template Example</h2> \n' +
                 '      <p> \n' +
                 '        This is another example of a tab template! \n' +
                 '      </p> \n' +
@@ -126,22 +141,23 @@ class TabsPage extends React.Component {
         desc={desc}
         componentInfo={componentInfo}>
 
-        <div className='tabs-examples'>
+        <div>
           <Tabs onChange={this._onChange}>
             <Tab label='Item One' >
-              <div className='tab-template-container'>
-                <h2 className='mui-font-style-headline'>Tab One Template Example</h2>
+              <div>
+                <h2 style={this.getStyles().headline}>Tab One Template Example</h2>
                 <p>
                   This is an example of a tab template!
                 </p>
                 <p>
-                  You can put any sort of HTML or react component in here.
+                  You can put any sort of HTML or react component in here. It even keeps the component state!
                 </p>
+                <Slider name="slider0" defaultValue={0.5} />
               </div>
             </Tab>
             <Tab label='Item Two' >
-              <div className='tab-template-container'>
-                <h2 className='mui-font-style-headline'>Tab Two Template Example</h2>
+              <div>
+                <h2 style={this.getStyles().headline}>Tab Two Template Example</h2>
                 <p>
                   This is another example of a tab template!
                 </p>

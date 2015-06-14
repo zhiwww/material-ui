@@ -1,7 +1,7 @@
 var React = require('react');
 var StylePropable = require('../../mixins/style-propable');
 var WindowListenable = require('../../mixins/window-listenable');
-var KeyCode = require('../../utils/key-code');
+var CssEvent = require('../utils/css-event');
 var Calendar = require('./calendar');
 var DialogWindow = require('../dialog-window');
 var FlatButton = require('../flat-button');
@@ -21,8 +21,12 @@ var DatePickerDialog = React.createClass({
     onAccept: React.PropTypes.func,
     onShow: React.PropTypes.func,
     onDismiss: React.PropTypes.func,
+    onClickAway: React.PropTypes.func,
     minDate: React.PropTypes.object,
     maxDate: React.PropTypes.object,
+    shouldDisableDate: React.PropTypes.func,
+    hideToolbarYearChange: React.PropTypes.bool,
+    showYearSelector: React.PropTypes.bool
   },
 
   windowListeners: {
@@ -31,7 +35,8 @@ var DatePickerDialog = React.createClass({
 
   getInitialState: function() {
     return {
-      isCalendarActive: false
+      isCalendarActive: false,
+      showMonthDayPicker: true
     };
   },
 
@@ -69,6 +74,7 @@ var DatePickerDialog = React.createClass({
         key={1}
         label="OK"
         secondary={true}
+        disabled={this.refs.calendar !== undefined && this.refs.calendar.isSelectedDateDisabled()}
         style={styles.actions}
         onTouchTap={this._handleOKTouchTap} />
     ];
@@ -85,14 +91,19 @@ var DatePickerDialog = React.createClass({
         actions={actions}
         onDismiss={this._handleDialogDismiss}
         onShow={this._handleDialogShow}
+        onClickAway={this._handleDialogClickAway}
         repositionOnUpdate={false}>
         <Calendar
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
           ref="calendar"
           onSelectedDate={this._onSelectedDate}
           initialDate={this.props.initialDate}
           isActive={this.state.isCalendarActive}
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
+          shouldDisableDate={this.props.shouldDisableDate}
+          shouldShowMonthDayPickerFirst={this.state.showMonthDayPicker}
+          hideToolbarYearChange={this.props.hideToolbarYearChange}
+          showYearSelector={this.props.showYearSelector}
           mode={this.props.mode} />
       </DialogWindow>
     );
@@ -106,9 +117,9 @@ var DatePickerDialog = React.createClass({
     this.refs.dialogWindow.dismiss();
   },
 
-  _onSelectedDate: function(){
-    if(this.props.autoOk){
-      setTimeout(this._handleOKTouchTap.bind(this), 300);
+  _onSelectedDate: function(e) {
+    if(this.props.autoOk) {
+      setTimeout(this._handleOKTouchTap, 300);
     }
   },
 
@@ -117,10 +128,11 @@ var DatePickerDialog = React.createClass({
   },
 
   _handleOKTouchTap: function() {
-    this.dismiss();
-    if (this.props.onAccept) {
+    if (this.props.onAccept && !this.refs.calendar.isSelectedDateDisabled()) {
       this.props.onAccept(this.refs.calendar.getSelectedDate());
     }
+
+    this.dismiss();
   },
 
   _handleDialogShow: function() {
@@ -128,19 +140,29 @@ var DatePickerDialog = React.createClass({
       isCalendarActive: true
     });
 
-    if(this.props.onShow) {
-      this.props.onShow();
-    }
+    if(this.props.onShow) this.props.onShow();
   },
 
   _handleDialogDismiss: function() {
-    this.setState({
-      isCalendarActive: false
-    });
+    CssEvent.onTransitionEnd(this.refs.dialogWindow.getDOMNode(), function() {
+      this.setState({
+        isCalendarActive: false,
+        showMonthDayPicker: true
+      });
+    }.bind(this));
 
-    if(this.props.onDismiss) {
-      this.props.onDismiss();
-    }
+    if(this.props.onDismiss) this.props.onDismiss();
+  },
+
+  _handleDialogClickAway: function() {
+    CssEvent.onTransitionEnd(this.refs.dialogWindow.getDOMNode(), function() {
+      this.setState({
+        isCalendarActive: false,
+        showMonthDayPicker: true
+      });
+    }.bind(this));
+
+    if (this.props.onClickAway) this.props.onClickAway();
   },
 
   _handleWindowKeyUp: function(e) {

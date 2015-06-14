@@ -1,14 +1,12 @@
-var React = require("react");
-var StylePropable = require("../../mixins/style-propable");
-var FontIcon = require("../font-icon");
-var Toggle = require("../toggle");
-
-require("./menu-item.less");
+var React = require('react');
+var StylePropable = require('../mixins/style-propable');
+var FontIcon = require('../font-icon');
+var Toggle = require('../toggle');
 
 var Types = {
-  LINK: "LINK",
-  SUBHEADER: "SUBHEADER",
-  NESTED: "NESTED"
+  LINK: 'LINK',
+  SUBHEADER: 'SUBHEADER',
+  NESTED: 'NESTED'
 };
 
 var MenuItem = React.createClass({
@@ -32,7 +30,6 @@ var MenuItem = React.createClass({
     toggle: React.PropTypes.bool,
     disabled: React.PropTypes.bool,
     onTouchTap: React.PropTypes.func,
-    onClick: React.PropTypes.func,
     onToggle: React.PropTypes.func,
     selected: React.PropTypes.bool
   },
@@ -51,7 +48,7 @@ var MenuItem = React.createClass({
   getInitialState: function() {
     return {
       hovered: false
-    };
+    }
   },
 
   getTheme: function() {
@@ -65,44 +62,44 @@ var MenuItem = React.createClass({
   getStyles: function() {
     var styles = {
       root: {
-        userSelect: "none",
-        cursor: "pointer",
-        lineHeight: this.getTheme().height + "px",
+        userSelect: 'none',
+        cursor: 'pointer',
+        lineHeight: this.getTheme().height + 'px',
         paddingLeft: this.getTheme().padding,
         paddingRight: this.getTheme().padding,
         color: this.context.muiTheme.palette.textColor
       },
       number: {
-        float: "right",
+        float: 'right',
         width: 24,
-        textAlign: "center"
+        textAlign: 'center'
       },
       attribute: {
-        float: "right"
+        float: 'right'
       },
       iconRight: {
-        lineHeight: this.getTheme().height + "px",
-        float: "right"
+        lineHeight: this.getTheme().height + 'px',
+        float: 'right'
       },
       icon: {
-        float: "left",
-        lineHeight: this.getTheme().height + "px",
+        float: 'left',
+        lineHeight: this.getTheme().height + 'px',
         marginRight: this.getSpacing().desktopGutter
       },
       data: {
-        display: "block",
+        display: 'block',
         paddingLeft: this.getSpacing().desktopGutter * 2,
-        lineHeight: this.getTheme().dataHeight + "px",
-        height: this.getTheme().dataHeight + "px",
-        verticalAlign: "top",
+        lineHeight: this.getTheme().dataHeight + 'px',
+        height: this.getTheme().dataHeight + 'px',
+        verticalAlign: 'top',
         top: -12,
-        position: "relative",
+        position: 'relative',
         fontWeight: 300,
         color: this.context.muiTheme.palette.textColor
       },
       toggle: {
         marginTop: ((this.getTheme().height - this.context.muiTheme.component.radioButton.size) / 2),
-        float: "right",
+        float: 'right',
         width: 42
       },
       rootWhenHovered: {
@@ -112,7 +109,7 @@ var MenuItem = React.createClass({
         color: this.getTheme().selectedTextColor
       },
       rootWhenDisabled: {
-        cursor: "default",
+        cursor: 'default',
         color: this.context.muiTheme.palette.disabledColor
       }
     };
@@ -125,7 +122,7 @@ var MenuItem = React.createClass({
     var iconRight;
     var attribute;
     var number;
-    var toggle;
+    var toggleElement;
 
     var styles = this.getStyles();
 
@@ -137,7 +134,8 @@ var MenuItem = React.createClass({
 
     if (this.props.toggle) {
       var {
-        onClick,
+        toggle,
+        onTouchTap,
         onToggle,
         onMouseOver,
         onMouseOut,
@@ -146,7 +144,7 @@ var MenuItem = React.createClass({
         style,
         ...other
       } = this.props;
-      toggle = <Toggle {...other} onToggle={this._handleToggle} style={styles.toggle}/>;
+      toggleElement = <Toggle {...other} onToggle={this._handleToggle} style={styles.toggle}/>;
     }
 
     return (
@@ -154,7 +152,6 @@ var MenuItem = React.createClass({
         key={this.props.index}
         className={this.props.className}
         onTouchTap={this._handleTouchTap}
-        onClick={this._handleOnClick}
         onMouseOver={this._handleMouseOver}
         onMouseOut={this._handleMouseOut}
         style={this.mergeAndPrefix(
@@ -169,7 +166,7 @@ var MenuItem = React.createClass({
         {data}
         {attribute}
         {number}
-        {toggle}
+        {toggleElement}
         {iconRight}
 
       </div>
@@ -178,10 +175,6 @@ var MenuItem = React.createClass({
 
   _handleTouchTap: function(e) {
     if (!this.props.disabled && this.props.onTouchTap) this.props.onTouchTap(e, this.props.index);
-  },
-
-  _handleOnClick: function(e) {
-    if (!this.props.disabled && this.props.onClick) this.props.onClick(e, this.props.index);
   },
 
   _handleToggle: function(e, toggled) {

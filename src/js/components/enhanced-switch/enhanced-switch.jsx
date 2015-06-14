@@ -1,15 +1,14 @@
-var React = require("react");
-var KeyCode = require("../../utils/key-code");
-var StylePropable = require("../../mixins/style-propable");
-var Transitions = require("../../styles/transitions");
-var UniqueId = require("../../utils/unique-id");
-var WindowListenable = require("../../mixins/window-listenable");
-var Spacing = require("../../styles/spacing");
-var FocusRipple = require("../ripples/focus-ripple");
-var TouchRipple = require("../ripples/touch-ripple");
-var Paper = require("../paper");
-
-require("./enhanced-switch.less");
+var React = require('react');
+var KeyCode = require('./utils/key-code');
+var StylePropable = require('./mixins/style-propable');
+var Transitions = require('./styles/transitions');
+var UniqueId = require('./utils/unique-id');
+var WindowListenable = require('./mixins/window-listenable');
+var Spacing = require('./styles/spacing');
+var ClearFix = require('./clearfix');
+var FocusRipple = require('./ripples/focus-ripple');
+var TouchRipple = require('./ripples/touch-ripple');
+var Paper = require('./paper');
 
 var EnhancedSwitch = React.createClass({
 
@@ -30,6 +29,7 @@ var EnhancedSwitch = React.createClass({
       iconStyle: React.PropTypes.object,
       thumbStyle: React.PropTypes.object,
       trackStyle: React.PropTypes.object,
+      labelStyle: React.PropTypes.object,
       name: React.PropTypes.string,
       value: React.PropTypes.string,
       label: React.PropTypes.string,
@@ -37,14 +37,14 @@ var EnhancedSwitch = React.createClass({
       required: React.PropTypes.bool,
       disabled: React.PropTypes.bool,
       defaultSwitched: React.PropTypes.bool,
-      labelPosition: React.PropTypes.oneOf(["left", "right"]),
+      labelPosition: React.PropTypes.oneOf(['left', 'right']),
       disableFocusRipple: React.PropTypes.bool,
       disableTouchRipple: React.PropTypes.bool
     },
 
   windowListeners: {
-    "keydown": "_handleWindowKeydown",
-    "keyup": "_handleWindowKeyup"
+    'keydown': '_handleWindowKeydown',
+    'keyup': '_handleWindowKeyup'
   },
 
   getInitialState: function() {
@@ -58,14 +58,13 @@ var EnhancedSwitch = React.createClass({
     return (
       parseInt(window
         .getComputedStyle(React.findDOMNode(this.refs.root))
-        .getPropertyValue("width"), 10)
+        .getPropertyValue('width'), 10)
     );
   },
 
   componentDidMount: function() {
     var inputNode = React.findDOMNode(this.refs.checkbox);
     if (!this.props.switched ||
-        this.props.switched == undefined ||
         inputNode.checked != this.props.switched) this.props.onParentShouldUpdate(inputNode.checked);
 
     window.addEventListener("resize", this._handleResize);
@@ -78,11 +77,11 @@ var EnhancedSwitch = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    var hasCheckedLinkProp = nextProps.hasOwnProperty("checkedLink");
-    var hasCheckedProp = nextProps.hasOwnProperty("checked");
-    var hasToggledProp = nextProps.hasOwnProperty("toggled");
+    var hasCheckedLinkProp = nextProps.hasOwnProperty('checkedLink');
+    var hasCheckedProp = nextProps.hasOwnProperty('checked');
+    var hasToggledProp = nextProps.hasOwnProperty('toggled');
     var hasNewDefaultProp =
-      (nextProps.hasOwnProperty("defaultSwitched") &&
+      (nextProps.hasOwnProperty('defaultSwitched') &&
       (nextProps.defaultSwitched != this.props.defaultSwitched));
     var newState = {};
 
@@ -92,9 +91,11 @@ var EnhancedSwitch = React.createClass({
       newState.switched = nextProps.toggled;
     } else if (hasCheckedLinkProp) {
       newState.switched = nextProps.checkedLink.value;
+    } else if (hasNewDefaultProp) {
+      newState.switched = nextProps.defaultSwitched;
     }
 
-    if (newState.switched != undefined && (newState.switched != this.props.switched)) this.props.onParentShouldUpdate(newState.switched);
+    if (newState.switched !== undefined && (newState.switched != this.props.switched)) this.props.onParentShouldUpdate(newState.switched);
   },
 
   getTheme: function() {
@@ -103,54 +104,58 @@ var EnhancedSwitch = React.createClass({
 
   getStyles: function() {
     var switchWidth = 60 - Spacing.desktopGutterLess;
-    var labelWidth = this.state.parentWidth - 60;
+    var labelWidth = 'calc(100% - 60px)';
 
     var styles = {
       root: {
-        position: "relative",
-        cursor: this.props.disabled ? "default" : "pointer",
-        overflow: "visible",
-        display: "table",
-        height: "auto",
-        width: "100%"
+        position: 'relative',
+        cursor: this.props.disabled ? 'default' : 'pointer',
+        overflow: 'visible',
+        display: 'table',
+        height: 'auto',
+        width: '100%'
       },
       input: {
-        position: "absolute",
-        cursor: this.props.disabled ? "default" : "pointer",
-        pointerEvents: "all",
+        position: 'absolute',
+        cursor: this.props.disabled ? 'default' : 'pointer',
+        pointerEvents: 'all',
         opacity: 0,
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         zIndex: 2,
         left: 0,
-        boxSizing: "border-box",
+        boxSizing: 'border-box',
         padding: 0,
         margin: 0
       },
+      controls: {
+        width: '100%',
+        height: '100%'
+      },
       label: {
-        float: "left",
-        position: "relative",
-        display: "table-column",
+        float: 'left',
+        position: 'relative',
+        display: 'table-column',
         width: labelWidth,
-        lineHeight: "24px",
+        lineHeight: '24px',
         color: this.getTheme().textColor
       },
       wrap: {
         transition: Transitions.easeOut(),
-        float: "left",
-        position: "relative",
-        display: "table-column",
+        float: 'left',
+        position: 'relative',
+        display: 'table-column',
         width: switchWidth,
-        marginRight: (this.props.labelPosition == "right") ?
+        marginRight: (this.props.labelPosition == 'right') ?
           Spacing.desktopGutterLess : 0,
-        marginLeft: (this.props.labelPosition == "left") ?
+        marginLeft: (this.props.labelPosition == 'left') ?
           Spacing.desktopGutterLess : 0
       },
       ripple: {
-        height: "200%",
-        width: "200%",
-        top: "-12",
-        left: "-12"
+        height: '200%',
+        width: '200%',
+        top: '-12',
+        left: '-12'
       }
     };
     return styles;
@@ -179,11 +184,9 @@ var EnhancedSwitch = React.createClass({
 
     var styles = this.getStyles();
 
-    styles.root.cursor = styles.root.input = this.props.disabled ? "default" : "pointer";
-
     var wrapStyles = this.mergeAndPrefix(styles.wrap, this.props.iconStyle);
     var rippleStyle = this.mergeAndPrefix(styles.ripple, this.props.rippleStyle);
-    var rippleColor = this.props.hasOwnProperty("rippleColor") ? this.props.rippleColor :
+    var rippleColor = this.props.hasOwnProperty('rippleColor') ? this.props.rippleColor :
                       this.getTheme().primary1Color;
 
     if (this.props.thumbStyle) {
@@ -193,8 +196,10 @@ var EnhancedSwitch = React.createClass({
 
     var inputId = this.props.id || UniqueId.generate();
 
+    var labelStyle = this.mergeAndPrefix(styles.label, this.props.labelStyle);
+
     var labelElement = this.props.label ? (
-      <label style={this.mergeAndPrefix(styles.label)} htmlFor={inputId}>
+      <label style={labelStyle} htmlFor={inputId}>
         {this.props.label}
       </label>
     ) : null;
@@ -220,7 +225,7 @@ var EnhancedSwitch = React.createClass({
       inputProps.onTouchEnd = this._handleTouchEnd;
     }
 
-    if (!this.props.hasOwnProperty("checkedLink")) {
+    if (!this.props.hasOwnProperty('checkedLink')) {
       inputProps.onChange = this._handleChange;
     }
 
@@ -271,15 +276,15 @@ var EnhancedSwitch = React.createClass({
     // Position is left if not defined or invalid.
     var elementsInOrder = (labelPositionExist &&
       (this.props.labelPosition.toUpperCase() === "RIGHT")) ? (
-        <div>
+        <ClearFix style={this.mergeAndPrefix(styles.controls)}>
           {switchElement}
           {labelElement}
-        </div>
+        </ClearFix>
       ) : (
-        <div>
+        <ClearFix style={this.mergeAndPrefix(styles.controls)}>
           {labelElement}
           {switchElement}
-        </div>
+        </ClearFix>
     );
 
     return (
@@ -297,11 +302,11 @@ var EnhancedSwitch = React.createClass({
 
   // no callback here because there is no event
   setSwitched: function(newSwitchedValue) {
-    if (!this.props.hasOwnProperty("checked") || this.props.checked == false) {
+    if (!this.props.hasOwnProperty('checked') || this.props.checked === false) {
       this.props.onParentShouldUpdate(newSwitchedValue);
       React.findDOMNode(this.refs.checkbox).checked = newSwitchedValue;
-    } else if (process.env.NODE_ENV !== "production") {
-      var message = "Cannot call set method while checked is defined as a property.";
+    } else if (process.env.NODE_ENV !== 'production') {
+      var message = 'Cannot call set method while checked is defined as a property.';
       console.error(message);
     }
   },
@@ -322,7 +327,7 @@ var EnhancedSwitch = React.createClass({
 
     var isInputChecked = React.findDOMNode(this.refs.checkbox).checked;
 
-    if (!this.props.hasOwnProperty("checked")) this.props.onParentShouldUpdate(isInputChecked);
+    if (!this.props.hasOwnProperty('checked')) this.props.onParentShouldUpdate(isInputChecked);
     if (this.props.onSwitch) this.props.onSwitch(e, isInputChecked);
   },
 
@@ -352,11 +357,11 @@ var EnhancedSwitch = React.createClass({
     if (e.button === 0) this.refs.touchRipple.start(e);
   },
 
-  _handleMouseUp: function(e) {
+  _handleMouseUp: function() {
     this.refs.touchRipple.end();
   },
 
-  _handleMouseOut: function(e) {
+  _handleMouseOut: function() {
     this.refs.touchRipple.end();
   },
 
@@ -364,7 +369,7 @@ var EnhancedSwitch = React.createClass({
     this.refs.touchRipple.start(e);
   },
 
-  _handleTouchEnd: function(e) {
+  _handleTouchEnd: function() {
     this.refs.touchRipple.end();
   },
 
@@ -391,7 +396,7 @@ var EnhancedSwitch = React.createClass({
     if (this.props.onFocus) this.props.onFocus(e);
   },
 
-  _handleResize: function(e) {
+  _handleResize: function() {
     this.setState({parentWidth: this.getEvenWidth()});
   }
 

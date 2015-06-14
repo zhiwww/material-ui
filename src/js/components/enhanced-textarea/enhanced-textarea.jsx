@@ -53,7 +53,7 @@ var EnhancedTextarea = React.createClass({
       style,
       textareaStyle,
       valueLink,
-      ...other,
+      ...other
     } = this.props;
 
     var styles = this.getStyles().root;
@@ -66,7 +66,7 @@ var EnhancedTextarea = React.createClass({
       padding: 0,
     };
 
-    var inputStyles = this.mergeAndPrefix(styles,{
+    var inputStyles = this.mergeAndPrefix(styles, {
       height: this.state.height + 'px',
     });
 
@@ -92,11 +92,11 @@ var EnhancedTextarea = React.createClass({
           rows={this.props.rows}
           defaultValue={this.props.defaultValue}
           readOnly={true}
-          value={this.props.value} />
+          value={this.props.value}
+          valueLink={this.props.valueLink} />
         <textarea
           {...other}
           ref="input"
-          style={inputStyles}
           rows={this.props.rows}
           style={AutoPrefix.all(inputStyles)}
           onChange={this._handleChange} />

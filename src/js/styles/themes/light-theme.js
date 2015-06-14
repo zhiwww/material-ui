@@ -10,7 +10,7 @@ var ColorManipulator = require('../../utils/color-manipulator');
 
 var LightTheme = {
   spacing: Spacing,
-  fontFamily: 'Roboto, sans-serif',
+  contentFontFamily: 'Roboto, sans-serif',
   getPalette: function() {
     return {
       primary1Color: Colors.cyan500,
@@ -146,21 +146,18 @@ var LightTheme = {
         iconColor: 'rgba(0, 0, 0, .40)',
         separatorColor: 'rgba(0, 0, 0, .175)',
         menuHoverColor: 'rgba(0, 0, 0, .10)'
-        //menuHoverColor: Colors.white
       },
-      avatar: {
-        borderColor: palette.borderColor,
-        borderWidth: 2,
-        borderStyle: 'solid'
+      tabs: {
+        backgroundColor: palette.primary1Color,
       }
     };
 
     // Properties based on previous properties
-    obj.flatButton.disabledTextColor = ColorManipulator.fade(obj.flatButton.textColor, 0.3);
-    obj.floatingActionButton.disabledColor = ColorManipulator.darken(Colors.white, 0.1);
-    obj.floatingActionButton.disabledTextColor = ColorManipulator.fade(palette.textColor, 0.3);
-    obj.raisedButton.disabledColor = ColorManipulator.darken(obj.raisedButton.color, 0.1);
-    obj.raisedButton.disabledTextColor = ColorManipulator.fade(obj.raisedButton.textColor, 0.3);
+    obj.flatButton.disabledTextColor = ColorManipulator.fade(obj.flatButton.textColor, 0.3),
+    obj.floatingActionButton.disabledColor = ColorManipulator.darken(Colors.white, 0.1),
+    obj.floatingActionButton.disabledTextColor = ColorManipulator.fade(palette.textColor, 0.3)
+    obj.raisedButton.disabledColor = ColorManipulator.darken(obj.raisedButton.color, 0.1),
+    obj.raisedButton.disabledTextColor = ColorManipulator.fade(obj.raisedButton.textColor, 0.3)
     obj.slider.handleSizeActive = obj.slider.handleSize * 2;
     obj.toggle.trackRequiredColor = ColorManipulator.fade(obj.toggle.thumbRequiredColor, 0.5);
 

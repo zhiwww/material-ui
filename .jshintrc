@@ -1,21 +1,11 @@
 {
-  "camelcase": true,
-  "immed": true,
-  "indent": 2,
-  "latedef": true,
-  "newcap": true,
-  "quotmark": true,
-
-  "esnext": true,
-  "globalstrict": false,
-
+  "asi": true,
   "browser": true,
+  "eqnull": true,
+  "esnext": true,
+  "expr": true,
+  "loopfunc": true,
   "node": true,
-
-  "globals": {
-    "require": false,
-    "__dirname": false,
-    "__DEV__": false,
-    "__SERVER__": false
-  }
+  "sub": true,
+  "undef": true
 }

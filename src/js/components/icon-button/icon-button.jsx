@@ -1,11 +1,9 @@
-var React = require("react");
-var StylePropable = require("../../mixins/style-propable");
-var Transitions = require("../../styles/transitions");
-var EnhancedButton = require("../enhanced-button");
-var FontIcon = require("../font-icon");
-var Tooltip = require("../tooltip");
-
-require("./icon-button.less");
+var React = require('react');
+var StylePropable = require('./mixins/style-propable');
+var Transitions = require('./styles/transitions');
+var EnhancedButton = require('./enhanced-button');
+var FontIcon = require('./font-icon');
+var Tooltip = require('./tooltip');
 
 var IconButton = React.createClass({
 
@@ -32,15 +30,21 @@ var IconButton = React.createClass({
     };
   },
 
+  getDefaultProps: function () {
+    return {
+      iconStyle: {}
+    };
+  },
+
   componentDidMount: function() {
     if (this.props.tooltip) {
       this._positionTooltip();
     }
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       if (this.props.iconClassName && this.props.children) {
-        var warning = "You have set both an iconClassName and a child icon. " +
-                      "It is recommended you use only one method when adding " +
-                      "icons to IconButtons.";
+        var warning = 'You have set both an iconClassName and a child icon. ' +
+                      'It is recommended you use only one method when adding ' +
+                      'icons to IconButtons.';
         console.warn(warning);
       }
     }
@@ -61,17 +65,15 @@ var IconButton = React.createClass({
   getStyles: function() {
     var styles = {
       root: {
-        //height: 48,
-        //width: 48,
-        position: "relative",
-        boxSizing: "border-box",
+        position: 'relative',
+        boxSizing: 'border-box',
         transition: Transitions.easeOut(),
         padding: (this.getSpacing().iconSize / 2),
         width: this.getSpacing().iconSize*2,
         height: this.getSpacing().iconSize*2
       },
       tooltip: {
-        boxSizing: "border-box",
+        boxSizing: 'border-box',
         marginTop: this.context.muiTheme.component.button.iconButtonSize + 4
       },
       icon: {
@@ -79,10 +81,10 @@ var IconButton = React.createClass({
         fill: this.getTheme().textColor
       },
       overlay: {
-        position: "relative",
+        position: 'relative',
         top: 0,
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         background: this.getDisabledColor()
       },
       rootWhenDisabled: {
@@ -102,30 +104,33 @@ var IconButton = React.createClass({
       tooltip,
       touch,
       ...other } = this.props;
-    var tooltip;
+    var tooltipElement;
     var fonticon;
 
     var styles = this.getStyles();
 
-    if (this.props.tooltip) {
-      tooltip = (
+    if (tooltip) {
+      tooltipElement = (
         <Tooltip
           ref="tooltip"
           label={tooltip}
           show={this.state.tooltipShown}
           touch={touch}
-          style={this.mergeAndPrefix(styles.tooltip)}/>
+          style={this.mergeStyles(styles.tooltip)}/>
       );
     }
 
     if (this.props.iconClassName) {
+      var { iconHoverColor, ...iconStyle } = this.props.iconStyle;
+
       fonticon = (
         <FontIcon
           className={this.props.iconClassName}
-          style={this.mergeAndPrefix(
+          hoverColor={iconHoverColor}
+          style={this.mergeStyles(
             styles.icon,
             this.props.disabled && styles.iconWhenDisabled,
-            this.props.iconStyle
+            iconStyle
           )}/>
       );
     }
@@ -143,14 +148,14 @@ var IconButton = React.createClass({
       <EnhancedButton {...other}
         ref="button"
         centerRipple={true}
-        style={this.mergeAndPrefix(styles.root, this.props.style)}
+        style={this.mergeStyles(styles.root, this.props.style)}
         onBlur={this._handleBlur}
         onFocus={this._handleFocus}
         onMouseOut={this._handleMouseOut}
         onMouseOver={this._handleMouseOver}
         onKeyboardFocus={this._handleKeyboardFocus}>
 
-        {tooltip}
+        {tooltipElement}
         {fonticon}
         {this.props.children}
 
@@ -163,7 +168,7 @@ var IconButton = React.createClass({
     var tooltipWidth = tooltip.offsetWidth;
     var buttonWidth = 48;
 
-    tooltip.style.left = (tooltipWidth - buttonWidth) / 2 * -1 + "px";
+    tooltip.style.left = (tooltipWidth - buttonWidth) / 2 * -1 + 'px';
   },
 
   _showTooltip: function() {
@@ -173,7 +178,7 @@ var IconButton = React.createClass({
   },
 
   _hideTooltip: function() {
-    this.setState({ tooltipShown: false });
+    if (this.props.tooltip) this.setState({ tooltipShown: false });
   },
 
   _handleBlur: function(e) {

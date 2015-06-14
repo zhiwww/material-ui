@@ -1,12 +1,10 @@
 var React = require('react');
-var StylePropable = require('../../mixins/style-propable');
-var Transitions = require('../../styles/transitions');
-var ColorManipulator = require('../../utils/color-manipulator');
-var EnhancedButton = require('../enhanced-button');
-var FontIcon = require('../font-icon');
-var Paper = require('../paper');
-
-require("./floating-action-button.less");
+var StylePropable = require('./mixins/style-propable');
+var Transitions = require('./styles/transitions');
+var ColorManipulator = require('./utils/color-manipulator');
+var EnhancedButton = require('./enhanced-button');
+var FontIcon = require('./font-icon');
+var Paper = require('./paper');
 
 var getZDepth = function(disabled) {
   var zDepth = disabled ? 0 : 2;
@@ -25,11 +23,9 @@ var RaisedButton = React.createClass({
   },
 
   propTypes: {
-    className: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
     iconClassName: React.PropTypes.string,
     iconStyle: React.PropTypes.object,
-    innerClassName: React.PropTypes.string,
-    innerStyle: React.PropTypes.object,
     mini: React.PropTypes.bool,
     onMouseDown: React.PropTypes.func,
     onMouseUp: React.PropTypes.func,
@@ -126,9 +122,6 @@ var RaisedButton = React.createClass({
       },
       overlayWhenHovered: {
         backgroundColor: ColorManipulator.fade(this._getIconColor(), 0.4)
-      },
-      inner: {
-        transition: Transitions.easeOut()
       }
     };
     return styles;
@@ -143,9 +136,9 @@ var RaisedButton = React.createClass({
 
     var styles = this.getStyles();
 
-    var icon;
+    var iconElement;
     if (this.props.iconClassName) {
-      icon =
+      iconElement =
         <FontIcon
           className={this.props.iconClassName}
           style={this.mergeAndPrefix(
@@ -159,8 +152,6 @@ var RaisedButton = React.createClass({
     return (
       <Paper
         style={this.mergeAndPrefix(styles.root, this.props.style)}
-        innerClassName={this.props.innerClassName}
-        innerStyle={this.mergeAndPrefix(styles.inner, this.props.innerStyle)}
         zDepth={this.state.zDepth}
         circle={true}>
 
@@ -185,7 +176,7 @@ var RaisedButton = React.createClass({
                 styles.overlay,
                 (this.state.hovered && !this.props.disabled) && styles.overlayWhenHovered
               )}>
-                {icon}
+                {iconElement}
                 {this.props.children}
             </div>
         </EnhancedButton>
@@ -232,7 +223,7 @@ var RaisedButton = React.createClass({
       React.findDOMNode(this.refs.overlay).style.backgroundColor = ColorManipulator.fade(this.getStyles().icon.color, 0.4);
     } else if (!this.state.hovered) {
       this.setState({ zDepth: this.state.initialZDepth });
-      React.findOMNode(this.refs.overlay).style.backgroundColor = 'transparent';
+      React.findDOMNode(this.refs.overlay).style.backgroundColor = 'transparent';
     }
   },
 

@@ -1,11 +1,13 @@
 var React = require('react/addons');
 var mui = require('mui');
+var ClearFix = mui.ClearFix;
 var TextField = mui.TextField;
+var StyleResizable = mui.Mixins.StyleResizable;
 var ComponentDoc = require('../../component-doc.jsx');
 
 var TextFieldsPage = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [StyleResizable, React.addons.LinkedStateMixin],
 
   getInitialState: function() {
     return {
@@ -20,10 +22,23 @@ var TextFieldsPage = React.createClass({
     };
   },
 
-  _textfieldStyle: function() {
-    return {
-      marginTop: 24,
+  getStyles: function() {
+    var styles = {
+      group: {
+        width: '100%',
+        float: 'left',
+        marginBottom: 32
+      },
+      textfield: {
+        marginTop: 24
+      }
     };
+
+    if (this.isDeviceSize(StyleResizable.statics.Sizes.LARGE)) {
+      styles.group.width = '50%';
+    }
+
+    return styles;
   },
 
   render: function() {
@@ -102,7 +117,7 @@ var TextFieldsPage = React.createClass({
       '  hintText="Disabled Hint Text"\n' +
       '  disabled={true}\n' +
       '  defaultValue="Disabled With Value"\n' +
-      '  floatingLabelText="Floating Label Text" />'; 
+      '  floatingLabelText="Floating Label Text" />';
 
     var desc = 'This component extends the current input element and will support all of its props and events. It supports ' +
       'valueLink and can be controlled or uncontrolled.' ;
@@ -124,6 +139,12 @@ var TextFieldsPage = React.createClass({
             desc: 'The text string to use for the floating label element.'
           },
           {
+            name: 'fullWidth',
+            type: 'bool',
+            header: 'optional',
+            desc: 'If true, the field receives the property width 100%.'
+          },
+          {
             name: 'hintText',
             type: 'string',
             header: 'optional',
@@ -134,6 +155,12 @@ var TextFieldsPage = React.createClass({
             type: 'bool',
             header: 'default: false',
             desc: 'If true, a textarea element will be rendered. The textarea also grows and shrinks according to the number of lines.'
+          },
+          {
+            name: 'onEnterKeyDown',
+            type: 'function',
+            header: 'optional',
+            desc: 'The function to call when the user presses the Enter key.'
           },
           {
             name: 'style',
@@ -203,6 +230,8 @@ var TextFieldsPage = React.createClass({
       }
     ];
 
+    var styles = this.getStyles();
+
     return (
       <ComponentDoc
         name="Text Field"
@@ -210,51 +239,50 @@ var TextFieldsPage = React.createClass({
         desc={desc}
         componentInfo={componentInfo}>
 
-        <div className="text-field-example">
-          <div className="text-field-example-group">
+        <ClearFix>
+          <div style={styles.group}>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text" /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text"
               defaultValue="Default Value" /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text"
               value={this.state.propValue}
               onChange={this._handleInputChange} /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text"
               valueLink={this.linkState('valueLinkValue')} /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text (MultiLine)"
               multiLine={true} /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text"
               errorText={this.state.errorText}
               onChange={this._handleErrorInputChange} /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Hint Text"
               errorText={this.state.error2Text}
               onChange={this._handleError2InputChange}
               defaultValue="abc" /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Disabled Hint Text"
               disabled={true} /><br/>
             <TextField
-              style={this._textfieldStyle()}
+              style={styles.textfield}
               hintText="Disabled Hint Text"
               disabled={true}
               defaultValue="Disabled With Value" /><br/>
           </div>
-
-          <div className="text-field-example-group">
+          <div style={styles.group}>
             <TextField
               hintText="Hint Text"
               floatingLabelText="Floating Label Text" /><br/>
@@ -296,14 +324,14 @@ var TextFieldsPage = React.createClass({
               defaultValue="Disabled With Value"
               floatingLabelText="Floating Label Text" /><br/>
           </div>
-        </div>
+        </ClearFix>
       </ComponentDoc>
     );
   },
 
   _handleErrorInputChange: function(e) {
     this.setState({
-      errorText: e.target.value ? '' : 'This field is required.' 
+      errorText: e.target.value ? '' : 'This field is required.'
     });
   },
 
@@ -311,13 +339,13 @@ var TextFieldsPage = React.createClass({
     var value = e.target.value;
     var isNumeric = !isNaN(parseFloat(value)) && isFinite(value);
     this.setState({
-      error2Text: isNumeric ? '' : 'This field must be numeric.' 
+      error2Text: isNumeric ? '' : 'This field must be numeric.'
     });
   },
 
   _handleFloatingErrorInputChange: function(e) {
     this.setState({
-      floatingErrorText: e.target.value ? '' : 'This field is required.' 
+      floatingErrorText: e.target.value ? '' : 'This field is required.'
     });
   },
 
@@ -325,7 +353,7 @@ var TextFieldsPage = React.createClass({
     var value = e.target.value;
     var isNumeric = !isNaN(parseFloat(value)) && isFinite(value);
     this.setState({
-      floatingError2Text: isNumeric ? '' : 'This field must be numeric.' 
+      floatingError2Text: isNumeric ? '' : 'This field must be numeric.'
     });
   },
 

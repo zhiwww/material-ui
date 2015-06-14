@@ -1,16 +1,13 @@
 {
-  "name": "material-ui-docs",
+  "name": "material-ui-example",
   "version": "0.8.0",
-  "description": "Documentation site for material-ui",
+  "description": "Sample project that uses material-ui",
   "repository": {
     "type": "git",
     "url": "https://github.com/callemall/material-ui.git"
   },
   "scripts": {
     "start": "gulp"
-  },
-  "browser": {
-    "mui": "../src/index.js"
   },
   "browserify": {
     "transform": [
@@ -24,19 +21,20 @@
   },
   "devDependencies": {
     "browser-sync": "^1.8.1",
+    "browserify": "^7.0.3",
     "gulp": "^3.8.10",
-    "gulp-autoprefixer": "^2.0.0",
-    "gulp-less": "^3.0.0",
     "gulp-notify": "^2.1.0",
-    "gulp-sourcemaps": "^1.2.8",
     "gulp-util": "^3.0.1",
     "pretty-hrtime": "^0.2.2",
+    "reactify": "^0.17.1",
     "require-dir": "^0.1.0",
     "underscore": "^1.7.0",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.2.1"
   },
   "dependencies": {
-    "highlight.js": "^8.4.0"
+    "material-ui": ">=0.8",
+    "react": ">=0.13",
+    "react-tap-event-plugin": "^0.1.3"
   }
 }

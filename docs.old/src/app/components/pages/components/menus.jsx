@@ -3,6 +3,7 @@ var mui = require('mui');
 var CodeExample = require('../../code-example/code-example.jsx');
 var ComponentInfo = require('../../component-info.jsx');
 
+var Typography = mui.Styles.Typography;
 var {Tab, Tabs} = mui;
 
 
@@ -155,18 +156,10 @@ var componentInfo = [
     name: 'Events',
     infoArray: [
       {
-        name: 'onItemClick',
-        type: 'function(e, index, menuItem)',
-        header: 'optional',
-        desc: 'Callback function for when a MenuItem has been selected via a ' +
-              'click event.'
-      },
-      {
         name: 'onItemTap',
         type: 'function(e, index, menuItem)',
         header: 'optional',
-        desc: 'Callback function for when a MenuItem has been selected via a ' +
-              'touch event.'
+        desc: 'Callback function for when a MenuItem has been selected.'
       },
       {
         name: 'onToggle',
@@ -197,6 +190,26 @@ class MenusPage extends React.Component {
     };
   }
 
+  getStyles() {
+    return {
+      exampleMenu: {
+        width: '100%'
+      },
+      exampleMenuNested: {
+        width: (64 * 3) + 'px'
+      },
+      headline: {
+        fontSize: '24px',
+        lineHeight: '32px',
+        paddingTop: '16px',
+        marginBottom: '12px',
+        letterSpacing: '0',
+        fontWeight: Typography.fontWeightNormal,
+        color: Typography.textDarkBlack
+      }
+    };
+  }
+
   render() {
 
     // Copied from component-doc
@@ -211,7 +224,7 @@ class MenusPage extends React.Component {
 
     return (
       <div>
-        <h2 className="mui-font-style-headline">Menus</h2>
+        <h2 style={this.getStyles().headline}>Menus</h2>
         <Tabs>
           <Tab label="Label Menu">
             {this._getLabelMenuExample()}
@@ -243,13 +256,13 @@ class MenusPage extends React.Component {
       "   { payload: '2', text: 'Type', data: 'Announcement', icon: 'home' },\n" +
       "   { payload: '3', text: 'Caller ID', data: '(123) 456-7890', icon: 'home' }\n" +
       "];\n\n" +
-      "//You can also pass an onItemTap or onItemClick callback prop.\n"
+      "//You can also pass an onItemTap callback prop.\n"
       "<Menu menuItems={labelMenuItems} autoWidth={false}/>";
 
     return (
       <CodeExample code={code}>
-        <div className="example-menu">
-          <mui.Menu menuItems={labelMenuItems} onItemClick={this._onItemClick} autoWidth={false}/>
+        <div style={this.getStyles().exampleMenu}>
+          <mui.Menu menuItems={labelMenuItems} onItemTap={this._onItemTap} autoWidth={false}/>
         </div>
       </CodeExample>
     );
@@ -266,8 +279,8 @@ class MenusPage extends React.Component {
 
     return (
       <CodeExample code={code}>
-        <div className="example-menu">
-          <mui.Menu menuItems={numberMenuItems} onItemClick={this._onItemClick} autoWidth={false}/>
+        <div style={this.getStyles().exampleMenu}>
+          <mui.Menu menuItems={numberMenuItems} onItemTap={this._onItemTap} autoWidth={false}/>
         </div>
       </CodeExample>
     );
@@ -286,8 +299,8 @@ class MenusPage extends React.Component {
 
     return (
       <CodeExample code={code}>
-        <div className="example-menu">
-          <mui.Menu menuItems={iconMenuItems} onItemClick={this._onItemClick} autoWidth={false}/>
+        <div style={this.getStyles().exampleMenu}>
+          <mui.Menu menuItems={iconMenuItems} onItemTap={this._onItemTap} autoWidth={false}/>
         </div>
       </CodeExample>
     );
@@ -305,8 +318,8 @@ class MenusPage extends React.Component {
 
     return (
       <CodeExample code={code}>
-        <div className="example-menu">
-          <mui.Menu menuItems={filterMenuItems} onItemToggle={this._onFilterMenuToggle}  onItemClick={this._onItemClick}autoWidth={false}/>
+        <div style={this.getStyles().exampleMenu}>
+          <mui.Menu menuItems={filterMenuItems} onItemToggle={this._onFilterMenuToggle}  onItemTap={this._onItemTap} autoWidth={false}/>
         </div>
       </CodeExample>
     );
@@ -344,8 +357,8 @@ class MenusPage extends React.Component {
 
     return (
       <CodeExample code={code}>
-        <div className="example-menu-nested">
-          <mui.Menu menuItems={nestedMenuItems} onItemClick={this._onItemClick} onItemTap={this._onItemTap} autoWidth={false}/>
+        <div style={this.getStyles().exampleMenuNested}>
+          <mui.Menu menuItems={nestedMenuItems} onItemTap={this._onItemTap} autoWidth={false}/>
         </div>
       </CodeExample>
     );
@@ -353,10 +366,6 @@ class MenusPage extends React.Component {
 
   _onFilterMenuToggle(e, key, menuItem, toggled) {
     console.log('Filter Menu Toggled: ', key, menuItem, toggled)
-  }
-
-  _onItemClick(e, key, menuItem) {
-    console.log("Menu Item Click: ", menuItem);
   }
 
   _onItemTap(e, key, menuItem) {

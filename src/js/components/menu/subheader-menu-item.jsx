@@ -1,9 +1,9 @@
-var React = require("react");
-var StylePropable = require("../../mixins/style-propable");
-var Typography = require("../../styles/typography");
+var React = require('react');
+var StylePropable = require('../mixins/style-propable');
+var Typography = require('../styles/typography');
 
 var SubheaderMenuItem = React.createClass({
-
+  
   mixins: [StylePropable],
 
   contextTypes: {
@@ -30,24 +30,23 @@ var SubheaderMenuItem = React.createClass({
     var subheaderHeight = this.getSpacing().desktopSubheaderHeight;
     var styles = {
       root: {
-        boxSizing: "border-box",
-        fontSize: "13px",
+        boxSizing: 'border-box',
+        fontSize: '13px',
         letterSpacing: 0,
         fontWeight: Typography.fontWeightMedium,
-        //color: Typography.textDarkBlack,
         margin: 0,
         height: subheaderHeight + gutterMini,
-        lineHeight: subheaderHeight + "px",
+        lineHeight: subheaderHeight + 'px',
         color: this.getTheme().textColor,
-        borderTop: "solid 1px " + this.getTheme().borderColor,
+        borderTop: 'solid 1px ' + this.getTheme().borderColor,
         paddingTop: gutterMini,
         marginTop: gutterMini
       },
       rootWhenFirstChild: {
         height: subheaderHeight,
-        borderTop: "none",
+        borderTop: 'none',
         paddingTop: 0,
-        marginTop: 0
+        marginTop: 0        
       }
     };
     return styles;
@@ -55,8 +54,8 @@ var SubheaderMenuItem = React.createClass({
 
   render: function() {
     return (
-        <div
-        	key={this.props.index}
+        <div 
+        	key={this.props.index} 
           className={this.props.className}
           style={this.mergeAndPrefix(
             this.getStyles().root,
@@ -67,7 +66,7 @@ var SubheaderMenuItem = React.createClass({
         </div>
     );
   }
-
+  
 });
 
 module.exports = SubheaderMenuItem;

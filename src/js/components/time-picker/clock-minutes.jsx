@@ -39,7 +39,7 @@ var ClockMinutes = React.createClass({
   },
  
   componentDidMount: function () {
-    var clockElement = this.refs.mask.getDOMNode();
+    var clockElement = React.findDOMNode(this.refs.mask);
 
       this.center = {
         x: clockElement.offsetWidth / 2,
@@ -70,9 +70,11 @@ var ClockMinutes = React.createClass({
      e.preventDefault();
      if(this.isMousePressed(e) != 1 ) return;
      
+     var ne = e.nativeEvent;
+
      var pos = {
-        x: e.nativeEvent.offsetX,
-        y: e.nativeEvent.offsetY
+        x: ne.offsetX === undefined ? ne.layerX : ne.offsetX,
+        y: ne.offsetY === undefined ? ne.layerY : ne.offsetY
      };
   
      var minutes = this.getMinutes(pos.x, pos.y)
@@ -158,4 +160,3 @@ var ClockMinutes = React.createClass({
 });
 
 module.exports = ClockMinutes;
- 
